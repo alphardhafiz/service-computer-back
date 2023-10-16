@@ -1,0 +1,8 @@
+barang: nama, jenis kerusakan, status, harga
+
+
+customer: nama, nohp, alamat
+feature: ubah status, liat barangnya
+
+user: nama, password, email
+feature: login, buat barang, update status barang, delete barang, lihat barang
