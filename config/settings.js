@@ -1,11 +1,8 @@
 exports.ROUTES = [
-    {
-      path: "/user",
-      resource: "UserResources",
-    }
+  {
+    path: "/user",
+    resource: "UserResources",
+  },
+];
 
-  ];
-
-  exports.ORIGINS_CORS = [
-    "http://localhost:3000",
-  ]
+exports.ORIGINS_CORS = ["http://localhost:3000"];

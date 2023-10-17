@@ -3,12 +3,10 @@ const mongoose = require("mongoose");
 // definisikan model
 exports.CustomerModel = mongoose.model(
   "Customer",
-  new mongoose.Schema(
-    {
-      
-		nama: { type: String, default: "" },
-		hp: { type: String, default: "", unique: true },
-		alamat: { type: String, default: "" },
+  new mongoose.Schema({
+    nama: { type: String, default: "" },
+    hp: { type: String, default: "", unique: true },
+    alamat: { type: String, default: "" },
 
     // verify: [
     //   {
@@ -17,6 +15,5 @@ exports.CustomerModel = mongoose.model(
     //     status: { type: Boolean, default: false },
     //   }
     // ],
-    }
-  )
+  })
 );

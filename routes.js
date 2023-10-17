@@ -4,9 +4,10 @@ const { ROUTES, ORIGINS_CORS } = require("./config/settings");
 
 const cors = require("cors");
 
-app.use(cors({
-  origin: ORIGINS_CORS,
-})
+app.use(
+  cors({
+    origin: ORIGINS_CORS,
+  })
 );
 
 app.use(express.json());
