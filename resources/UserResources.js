@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { UserModel } = require("../models/UserModels");
+const { UserModel } = require("../models/UserModel");
 
 // endpoint proses signup
 app.post("/signup", async (req, res) => {
@@ -54,3 +54,5 @@ app.post("/signin", async (req, res) => {
   
       return res.status(200).json({ token });
     });
+
+module.exports = app;

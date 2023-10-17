@@ -5,3 +5,7 @@ exports.ROUTES = [
     }
 
   ];
+
+  exports.ORIGINS_CORS = [
+    "http://localhost:3000",
+  ]
