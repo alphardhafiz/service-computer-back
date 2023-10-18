@@ -7,7 +7,8 @@ exports.BarangModel = mongoose.model(
     namaBarang: { type: String },
     tipeKerusakan: { type: String },
     harga: { type: Number, default: 0 },
-    hpCustomer: {type: String},
+    status: {type: String, default: "belum dikerjakan"},
+    hpCustomer: {type: String,},
     namaCustomer: { type: String}
   })
 );
