@@ -50,7 +50,48 @@ app.delete("/:id", [IsAuthenticated], async (req, res) => {
   }
   await BarangModel.findOneAndDelete({ _id: req.params.id });
 
-  return res.status(204).json({message: 'barang berhasil dihapus'});
+  return res.status(204).json({message: "barang berhasil dihapus"});
+});
+
+app.put("/:id/dikerjakan", [IsAuthenticated], async (req, res) => {
+  const barang = await BarangModel.findOneAndUpdate(
+    { _id: req.params.id },
+    { status: "sedang dikerjakan" },
+    { new: true }
+  );
+
+  return res.status(200).json(barang);
+});
+
+app.put("/:id/selesai", [IsAuthenticated], async (req, res) => {
+  const barang = await BarangModel.findOneAndUpdate(
+    { _id: req.params.id },
+    { status: "selesai dikerjakan" },
+    { new: true }
+  );
+
+  return res.status(200).json(barang);
+});
+
+app.put("/:id/ambil", [IsAuthenticated], async (req, res) => {
+  const barang = await BarangModel.findOneAndUpdate(
+    { _id: req.params.id },
+    { status: "sudah diambil" },
+    { new: true }
+  );
+
+  return res.status(200).json(barang);
+});
+
+
+app.put("/:id/antar", [IsAuthenticated], async (req, res) => {
+  const barang = await BarangModel.findOneAndUpdate(
+    { _id: req.params.id },
+    { status: "sedang diantar" },
+    { new: true }
+  );
+
+  return res.status(200).json(barang);
 });
 
 module.exports = app;
