@@ -20,11 +20,10 @@ app.get("", [IsAuthenticated], async (req, res) => {
 
 
 app.get("/:hpCustomer", async (req, res) => {
-  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-    return res.status(404).json({ detail: "404 Resource not found" });
-  }
 
-  const barang = await BarangModel.findById(req.params.id, { __v: 0 });
+
+  const barang = await BarangModel.find({
+    "hpCustomer": req.params.hpCustomer});
   if (!barang) {
     return res.status(404).json({ detail: "404 Resource not found" });
   }
