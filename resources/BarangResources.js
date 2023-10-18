@@ -8,8 +8,8 @@ const { default: mongoose } = require("mongoose");
 
 
 app.post("/", [IsAuthenticated], async (req, res) => {
-  await BarangModel.create(req.body);
-  return res.status(201).json(req.body);
+  const response = await BarangModel.create(req.body);
+  return res.status(201).json(response);
 });
 
 app.get("", [IsAuthenticated], async (req, res) => {
@@ -50,7 +50,7 @@ app.delete("/:id", [IsAuthenticated], async (req, res) => {
   }
   await BarangModel.findOneAndDelete({ _id: req.params.id });
 
-  return res.status(204).json(null);
+  return res.status(204).json({message: 'barang berhasil dihapus'});
 });
 
 module.exports = app;
