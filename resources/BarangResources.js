@@ -54,6 +54,11 @@ app.delete("/:id", [IsAuthenticated], async (req, res) => {
 });
 
 app.put("/:id/dikerjakan", [IsAuthenticated], async (req, res) => {
+  const barang1 = await BarangModel.findOne({_id: req.params.id})
+  if (barang1.status !== "belum dikerjakan"){
+    return res.status(403).json({message: 'barang belum bisa dikerjakan'})
+  }
+
   const barang = await BarangModel.findOneAndUpdate(
     { _id: req.params.id },
     { status: "sedang dikerjakan" },
@@ -64,6 +69,10 @@ app.put("/:id/dikerjakan", [IsAuthenticated], async (req, res) => {
 });
 
 app.put("/:id/selesai", [IsAuthenticated], async (req, res) => {
+  const barang1 = await BarangModel.findOne({_id: req.params.id})
+  if (barang1.status !== "sedang dikerjakan"){
+    return res.status(403).json({message: 'barang belum selesai dikerjakan'})
+  }
   const barang = await BarangModel.findOneAndUpdate(
     { _id: req.params.id },
     { status: "selesai dikerjakan" },
@@ -74,6 +83,10 @@ app.put("/:id/selesai", [IsAuthenticated], async (req, res) => {
 });
 
 app.put("/:id/ambil", [IsAuthenticated], async (req, res) => {
+  const barang1 = await BarangModel.findOne({_id: req.params.id})
+  if (barang1.status !== "selesai dikerjakan"){
+    return res.status(403).json({message: 'barang belum bisa diambil'})
+  }
   const barang = await BarangModel.findOneAndUpdate(
     { _id: req.params.id },
     { status: "sudah diambil" },
@@ -85,6 +98,10 @@ app.put("/:id/ambil", [IsAuthenticated], async (req, res) => {
 
 
 app.put("/:id/antar", [IsAuthenticated], async (req, res) => {
+  const barang1 = await BarangModel.findOne({_id: req.params.id})
+  if (barang1.status !== "selesai dikerjakan"){
+    return res.status(403).json({message: 'barang belum bisa diantar'})
+  }
   const barang = await BarangModel.findOneAndUpdate(
     { _id: req.params.id },
     { status: "sedang diantar" },
