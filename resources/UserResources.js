@@ -3,9 +3,10 @@ const app = express();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { UserModel } = require("../models/UserModel");
+const IsAuthenticated = require("../middleware/IsAuthenticated");
 
 // endpoint proses signup
-app.get("/", async (req, res) => {
+app.get("/", [IsAuthenticated],  async (req, res) => {
   try {
     const response = await UserModel.find();
     return res.status(200).json(response);
@@ -13,6 +14,8 @@ app.get("/", async (req, res) => {
     return res.status(400).json(error.message);
   }
 });
+
+
 
 app.post("/signup", async (req, res) => {
   //ambil data dari body

@@ -4,8 +4,10 @@ const mongoose = require("mongoose");
 exports.BarangModel = mongoose.model(
   "Barang",
   new mongoose.Schema({
-    nama: { type: String },
+    namaBarang: { type: String },
     tipeKerusakan: { type: String },
     harga: { type: Number, default: 0 },
+    hpCustomer: {type: Number},
+    namaCustomer: { type: String}
   })
 );
