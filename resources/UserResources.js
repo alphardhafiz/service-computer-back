@@ -56,6 +56,7 @@ app.post("/signin", async (req, res) => {
     {
       userId: user._id,
       email: user.email,
+      role: user.role
     },
     process.env.TOKEN,
     { expiresIn: "1h" }

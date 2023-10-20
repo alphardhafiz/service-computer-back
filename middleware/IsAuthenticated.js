@@ -11,6 +11,8 @@ module.exports = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.TOKEN);
+    console.log(decoded)
+    if(decoded.role !== 'admin') return res.status(403).json({detail: "Anda bukan admin"})
     req.user = decoded;
   } catch (err) {
     return res.status(401).json({
