@@ -17,6 +17,18 @@ app.get("", [IsAuthenticated], async (req, res) => {
   return res.status(200).json(barangs);
 });
 
+app.get("/:id", [IsAuthenticated], async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return res.status(404).json({ detail: "404 Resource not found" });
+  }
+
+  const barang = await BarangModel.findById(req.params.id, { __v: 0 });
+  if (!barang) {
+    return res.status(404).json({ detail: "404 Resource not found" });
+  }
+  return res.status(200).json(barang);
+});
+
 
 
 app.get("/:hpCustomer", async (req, res) => {
