@@ -31,7 +31,7 @@ app.get("/:id", [IsAuthenticated], async (req, res) => {
 
 
 
-app.get("/:hpCustomer", async (req, res) => {
+app.get("/customerList/:hpCustomer", async (req, res) => {
 
 
   const barang = await BarangModel.find({
