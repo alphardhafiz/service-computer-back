@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const { BarangModel } = require("../models/BarangModel");
 const IsAuthenticated = require("../middleware/IsAuthenticated");
 const { default: mongoose } = require("mongoose");
-
+const { sendEmail } = require("../utils/EmailUtils");
 
 app.post("/", [IsAuthenticated], async (req, res) => {
   const response = await BarangModel.create(req.body);
@@ -29,13 +29,10 @@ app.get("/:id", [IsAuthenticated], async (req, res) => {
   return res.status(200).json(barang);
 });
 
-
-
 app.get("/customerList/:hpCustomer", async (req, res) => {
-
-
   const barang = await BarangModel.find({
-    "hpCustomer": req.params.hpCustomer});
+    hpCustomer: req.params.hpCustomer,
+  });
   if (!barang) {
     return res.status(404).json({ detail: "404 Resource not found" });
   }
@@ -62,13 +59,13 @@ app.delete("/:id", [IsAuthenticated], async (req, res) => {
   }
   await BarangModel.findOneAndDelete({ _id: req.params.id });
 
-  return res.status(204).json({message: "barang berhasil dihapus"});
+  return res.status(204).json({ message: "barang berhasil dihapus" });
 });
 
 app.put("/:id/dikerjakan", [IsAuthenticated], async (req, res) => {
-  const barang1 = await BarangModel.findOne({_id: req.params.id})
-  if (barang1.status !== "belum dikerjakan"){
-    return res.status(403).json({message: 'barang belum bisa dikerjakan'})
+  const barang1 = await BarangModel.findOne({ _id: req.params.id });
+  if (barang1.status !== "belum dikerjakan") {
+    return res.status(403).json({ message: "barang belum bisa dikerjakan" });
   }
 
   const barang = await BarangModel.findOneAndUpdate(
@@ -81,9 +78,9 @@ app.put("/:id/dikerjakan", [IsAuthenticated], async (req, res) => {
 });
 
 app.put("/:id/selesai", [IsAuthenticated], async (req, res) => {
-  const barang1 = await BarangModel.findOne({_id: req.params.id})
-  if (barang1.status !== "sedang dikerjakan"){
-    return res.status(403).json({message: 'barang belum selesai dikerjakan'})
+  const barang1 = await BarangModel.findOne({ _id: req.params.id });
+  if (barang1.status !== "sedang dikerjakan") {
+    return res.status(403).json({ message: "barang belum selesai dikerjakan" });
   }
   const barang = await BarangModel.findOneAndUpdate(
     { _id: req.params.id },
@@ -95,9 +92,9 @@ app.put("/:id/selesai", [IsAuthenticated], async (req, res) => {
 });
 
 app.put("/:id/ambil", [IsAuthenticated], async (req, res) => {
-  const barang1 = await BarangModel.findOne({_id: req.params.id})
-  if (barang1.status !== "selesai dikerjakan"){
-    return res.status(403).json({message: 'barang belum bisa diambil'})
+  const barang1 = await BarangModel.findOne({ _id: req.params.id });
+  if (barang1.status !== "selesai dikerjakan") {
+    return res.status(403).json({ message: "barang belum bisa diambil" });
   }
   const barang = await BarangModel.findOneAndUpdate(
     { _id: req.params.id },
@@ -108,11 +105,10 @@ app.put("/:id/ambil", [IsAuthenticated], async (req, res) => {
   return res.status(200).json(barang);
 });
 
-
 app.put("/:id/antar", [IsAuthenticated], async (req, res) => {
-  const barang1 = await BarangModel.findOne({_id: req.params.id})
-  if (barang1.status !== "selesai dikerjakan"){
-    return res.status(403).json({message: 'barang belum bisa diantar'})
+  const barang1 = await BarangModel.findOne({ _id: req.params.id });
+  if (barang1.status !== "selesai dikerjakan") {
+    return res.status(403).json({ message: "barang belum bisa diantar" });
   }
   const barang = await BarangModel.findOneAndUpdate(
     { _id: req.params.id },
@@ -121,6 +117,17 @@ app.put("/:id/antar", [IsAuthenticated], async (req, res) => {
   );
 
   return res.status(200).json(barang);
+});
+
+app.post("/send-email", async (req, res) => {
+  const { name, email, subject, phone, message } = req.body;
+
+  if (!name || !email || !subject || !phone || !message)
+    return res.status(422).json({ message: "isi form dengan lengkap" });
+
+  sendEmail(name, email, subject, phone, message)
+
+  return res.status(200).json({message: `Email Berhasil Dikiim`})
 });
 
 module.exports = app;
